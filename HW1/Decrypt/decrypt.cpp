@@ -114,10 +114,46 @@ string railfence(string input)
 	return ans;
 }
 
-string row(string input, int key)
+string row(string input, string key)
 {
-	string ans = input;
-
+	string ans;
+	int cols = 1;
+	for (int index = 0; index < key.length(); index++)
+	{
+		if (key[index] - '0' > cols)
+			cols = key[index] - '0';
+	}
+	int rows = input.length() / cols;
+	if (input.length() % cols > 0)
+		rows++;
+	char** anss = new char*[rows];
+	for (int r = 0; r < rows; r++)
+		anss[r] = new char[cols + 1];
+	int input_index = 0;
+	int c = 1;
+	int c_index = 1;
+	for (; input_index < input.length();)
+	{
+		for (int key_index = 0; key_index < key.length(); key_index++)
+		{
+			if (c == key[key_index] - '0')
+			{
+				c_index = key_index;
+				c++;
+				break;
+			}
+		}
+		for (int r = 0; r < rows; r++)
+		{
+			anss[r][c_index] = input[input_index++] - 'A' + 'a';
+		}
+	}
+	for (int r = 0; r < rows; r++)
+	{
+		anss[r][cols] = '\0';
+		ans += anss[r];
+	}
+	delete[] anss;
 	return ans;
 }
 
@@ -134,14 +170,15 @@ int main(int argc, char* argv[])
 		else if (argv[3] == "railfence")
 			railfence(argv[5]);
 		else if (argv[3] == "row")
-			row(argv[5], atoi(argv[7]));
+			row(argv[5], argv[7]);
 	}
 	else
 	{
 		//cout << caesar("MQTPEMRXIBX", 4);
 		//cout << playfair("implaintext", "monarchy");
 		//cout << vernam("QIJF", "xmcl");
-		cout << railfence("MEMATRHTGPRYETEFETEOAAT");
+		//cout << railfence("MEMATRHTGPRYETEFETEOAAT");
+		cout << row("TTNAAPTMTSUOAODWCOIXKNLYPETZ", "4312567");
 	}
 	return 0;
 }
