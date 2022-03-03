@@ -98,10 +98,19 @@ string vernam(string input, string key)
 	return ans;
 }
 
-string railfence(string input, int key)
+string railfence(string input)
 {
-	string ans = input;
-
+	string ans;
+	int m = input.length() / 2;
+	int p = 0, q = m + 1;
+	for (int index = 0; index < input.length(); index++)
+	{
+		if (index % 2 == 0)
+			ans += input[p++] - 'A' + 'a';
+		else
+			ans += input[q++] - 'A' + 'a';
+	}
+	ans += '\0';
 	return ans;
 }
 
@@ -114,7 +123,7 @@ string row(string input, int key)
 
 int main(int argc, char* argv[])
 {
-	if (argc == 7)
+	if (argc >= 5)
 	{
 		if (argv[3] == "caesar")
 			caesar(argv[5], atoi(argv[7]));
@@ -123,7 +132,7 @@ int main(int argc, char* argv[])
 		else if (argv[3] == "vernam")
 			vernam(argv[5], argv[7]);
 		else if (argv[3] == "railfence")
-			railfence(argv[5], atoi(argv[7]));
+			railfence(argv[5]);
 		else if (argv[3] == "row")
 			row(argv[5], atoi(argv[7]));
 	}
@@ -131,7 +140,8 @@ int main(int argc, char* argv[])
 	{
 		//cout << caesar("MQTPEMRXIBX", 4);
 		//cout << playfair("implaintext", "monarchy");
-		cout << vernam("QIJF", "xmcl");
+		//cout << vernam("QIJF", "xmcl");
+		cout << railfence("MEMATRHTGPRYETEFETEOAAT");
 	}
 	return 0;
 }
