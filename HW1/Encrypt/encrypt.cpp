@@ -73,7 +73,8 @@ string vernam(string input, string key)
 	string result = "";
 	for (int id = 0; id < input.length(); id++)
 	{
-		result.push_back(((input[id] + key[id] - 'a') % 26) - 'a' + 'A');
+		int num1 = input[id] - 'a', num2 = key[id] - 'a';
+		result.push_back('A' + (num1 ^ num2));
 	}
 	return result;
 }
