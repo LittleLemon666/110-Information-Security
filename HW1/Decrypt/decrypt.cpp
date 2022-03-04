@@ -91,6 +91,8 @@ string playfair(string input, string key)
 string vernam(string input, string key)
 {
 	string ans = input;
+	if (key.length() < input.length())
+		key += input;
 	for (int index = 0; index < input.length(); index++)
 	{
 		ans[index] = (short)((input[index] - 'A') ^ (key[index] - 'a')) + 'a';
