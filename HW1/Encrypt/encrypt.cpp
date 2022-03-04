@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"vernam", (char*)"-i", (char*)"abcdefgh", (char*)"-k", (char*)"monarchy" };
@@ -72,7 +73,7 @@ string vernam(string input, string key)
 	string result = "";
 	for (int id = 0; id < input.length(); id++)
 	{
-		result.push_back(input[id] + key[id]);
+		result.push_back(((input[id] + key[id]) % 26) - 'a' + 'A');
 	}
 	return result;
 }
@@ -82,16 +83,28 @@ string railfence(string input)
 	string odd = "", even = "";
 	for (int id = 0; id < input.length(); id++)
 	{
-		if (id % 2 == 0) even.push_back(input[id]);
-		else odd.push_back(input[id]);
+		if (id % 2 == 0) even.push_back(input[id] - 'a' + 'A');
+		else odd.push_back(input[id] - 'a' + 'A');
 	}
 	return even + odd;
 }
 
-string row(string input, int key)
+string row(string input, string key)
 {
-	string result = input;
-
+	string result = "";
+	vector<string> list = {};
+	for (int id = 0; id < key.length(); id++)
+	{
+		list.push_back("");
+	}
+	for (int id = 0; id < input.length(); id++)
+	{
+		list[id % key.length()].push_back(input[id % key.length()] - 'a' + 'A');
+	}
+	for (int id = 0; id < key.length(); id++)
+	{
+		result += list[key[id] - '1'];
+	}
 	return result;
 }
 
@@ -105,6 +118,6 @@ int main(int argc, char* argv[])
 	else if (cipher_type == "playfair") cout << playfair(argv[4], argv[6]);
 	else if (cipher_type == "vernam") cout << vernam(argv[4], argv[6]);
 	else if (cipher_type == "railfence") cout << railfence(argv[4]);
-	else if (cipher_type == "row") cout << row(argv[4], stoi(argv[6]));
+	else if (cipher_type == "row") cout << row(argv[4], argv[6]);
 	return 0;
 }
