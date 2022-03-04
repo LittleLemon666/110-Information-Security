@@ -2,7 +2,7 @@
 #include <string>
 using namespace std;
 
-char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"playfair", (char*)"-i", (char*)"abcdefgh", (char*)"-k", (char*)"monarchy" };
+char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"vernam", (char*)"-i", (char*)"abcdefgh", (char*)"-k", (char*)"monarchy" };
 
 string caesar(string input, int key)
 {
@@ -66,10 +66,14 @@ string playfair(string input, string key)
 	return result;
 }
 
-string vernam(string input, int key)
+string vernam(string input, string key)
 {
-	string result = input;
-
+	key += input;
+	string result = "";
+	for (int id = 0; id < input.length(); id++)
+	{
+		result.push_back(input[id] + key[id]);
+	}
 	return result;
 }
 
@@ -95,7 +99,7 @@ int main(int argc, char* argv[])
 	string cipher_type = argv[2];
 	if (cipher_type == "caesar") cout << caesar(argv[4], stoi(argv[6]));
 	else if (cipher_type == "playfair") cout << playfair(argv[4], argv[6]);
-	else if (cipher_type == "vernam") cout << vernam(argv[4], stoi(argv[6]));
+	else if (cipher_type == "vernam") cout << vernam(argv[4], argv[6]);
 	else if (cipher_type == "railfence") cout << railfence(argv[4], stoi(argv[6]));
 	else if (cipher_type == "row") cout << row(argv[4], stoi(argv[6]));
 	return 0;
