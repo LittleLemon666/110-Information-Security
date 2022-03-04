@@ -90,12 +90,17 @@ string playfair(string input, string key)
 
 string vernam(string input, string key)
 {
-	string ans = input;
-	if (key.length() < input.length())
-		key += input;
+	string ans;
+	string ans_t;
 	for (int index = 0; index < input.length(); index++)
 	{
-		ans[index] = (short)((input[index] - 'A') ^ (key[index] - 'a')) + 'a';
+		if (index >= key.length())
+		{
+			key += ans_t;
+			ans += ans_t;
+			ans_t = "";
+		}
+		ans_t += (short)((input[index] - 'A') ^ (key[index] - 'a')) + 'a';
 	}
 	return ans;
 }
@@ -177,8 +182,9 @@ int main(int argc, char* argv[])
 	else
 	{
 		//cout << caesar("MQTPEMRXIBX", 4);
-		cout << playfair("BIHCFGFY", "monarchy");
+		//cout << playfair("BIHCFGFY", "monarchy");
 		//cout << vernam("QIJF", "xmcl");
+		cout << vernam("ZICVTWQNGKZEIIGASXSTSLVVWLA", "deceptive");
 		//cout << railfence("MEMATRHTGPRYETEFETEOAAT");
 		//cout << row("TTNAAPTMTSUOAODWCOIXKNLYPETZ", "4312567");
 	}
