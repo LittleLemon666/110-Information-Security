@@ -71,18 +71,18 @@ string playfair(string input, string key)
 
 		if (row_a == row_b)
 		{
-			ans[index] = matrix[(col_a - 1 + 5) % 5][row_a];
-			ans[index + 1] = matrix[(col_b - 1 + 5) % 5][row_b];
+			ans[index] = matrix[row_a][(col_a - 1 + 5) % 5];
+			ans[index + 1] = matrix[row_b][(col_b - 1 + 5) % 5];
 		}
 		else if (col_a == col_b)
 		{
-			ans[index] = matrix[col_a][(row_a + 1 + 5) % 5];
-			ans[index + 1] = matrix[col_b][(row_b + 1 + 5) % 5];
+			ans[index] = matrix[(row_a - 1 + 5) % 5][col_a];
+			ans[index + 1] = matrix[(row_b - 1 + 5) % 5][col_b];
 		}
 		else
 		{
-			ans[index] = matrix[col_b][row_a];
-			ans[index + 1] = matrix[col_a][row_b];
+			ans[index] = matrix[row_a][col_b];
+			ans[index + 1] = matrix[row_b][col_a];
 		}
 	}
 	return ans;
@@ -175,10 +175,10 @@ int main(int argc, char* argv[])
 	else
 	{
 		//cout << caesar("MQTPEMRXIBX", 4);
-		//cout << playfair("implaintext", "monarchy");
+		cout << playfair("BIHCFGFY", "monarchy");
 		//cout << vernam("QIJF", "xmcl");
 		//cout << railfence("MEMATRHTGPRYETEFETEOAAT");
-		cout << row("TTNAAPTMTSUOAODWCOIXKNLYPETZ", "4312567");
+		//cout << row("TTNAAPTMTSUOAODWCOIXKNLYPETZ", "4312567");
 	}
 	return 0;
 }
