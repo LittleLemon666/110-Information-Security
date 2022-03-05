@@ -102,6 +102,7 @@ string vernam(string input, string key)
 		}
 		ans_t += (short)((input[index] - 'A') ^ (key[index] - 'a')) + 'a';
 	}
+	ans += ans_t;
 	return ans;
 }
 
@@ -168,23 +169,23 @@ int main(int argc, char* argv[])
 {
 	if (argc >= 5)
 	{
-		if (argv[3] == "caesar")
-			caesar(argv[5], atoi(argv[7]));
-		else if (argv[3] == "playfair")
-			playfair(argv[5], argv[7]);
-		else if (argv[3] == "vernam")
-			vernam(argv[5], argv[7]);
-		else if (argv[3] == "railfence")
-			railfence(argv[5]);
-		else if (argv[3] == "row")
-			row(argv[5], argv[7]);
+		if (!strcmp(argv[2], "caesar"))
+			cout << caesar(argv[4], atoi(argv[6])) << "\n";
+		else if (!strcmp(argv[2], "playfair"))
+			cout << playfair(argv[4], argv[6]) << "\n";
+		else if (!strcmp(argv[2], "vernam"))
+			cout << vernam(argv[4], argv[6]) << "\n";
+		else if (!strcmp(argv[2], "railfence"))
+			cout << railfence(argv[4]) << "\n";
+		else if (!strcmp(argv[2], "row"))
+			cout << row(argv[4], argv[6]) << "\n";
 	}
 	else
 	{
-		//cout << caesar("MQTPEMRXIBX", 4);
+		cout << caesar("MQTPEMRXIBX", 4);
 		//cout << playfair("BIHCFGFY", "monarchy");
 		//cout << vernam("QIJF", "xmcl");
-		cout << vernam("ZICVTWQNGKZEIIGASXSTSLVVWLA", "deceptive");
+		//cout << vernam("MBDBHBDB", "m");
 		//cout << railfence("MEMATRHTGPRYETEFETEOAAT");
 		//cout << row("TTNAAPTMTSUOAODWCOIXKNLYPETZ", "4312567");
 	}
