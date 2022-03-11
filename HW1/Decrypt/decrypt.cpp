@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
 void find_row_col(char matrix[5][5], char input, int& row, int& col)
@@ -110,26 +111,39 @@ string railfence(string input, int key)
 {
 	string ans;
 	string *anss = new string[key];
-	int row_length = 2 * key - 2;
+	int* indexes = new int[key];
+	int row_length = 2 * (key - 1);
 	int row_left = input.length() % row_length;
 	int col_length = input.length() / row_length;
-	for (int index = 0; index < input.length() - row_left; index++)
-	{
-		if (index / col_length < key)
-			anss[index / col_length] += input[index];
-		else
-			anss[key - (index / row_length - key)] += input[index];
-	}
-	for (int index = 0; index < row_left; index++)
-	{
-		if (index < key)
-			anss[index] += input[input.length() - row_left + index];
-		else
-			anss[key - (index / row_length - key)] += input[input.length() - row_left + index];
-	}
+	int input_index = 0;
+	int sub_length = 0;
 	for (int index = 0; index < key; index++)
 	{
-		ans += anss[index];
+		if (index == 0 || index + 1 == key)
+		{
+			sub_length = col_length + ((index + 1 <= row_left) ? 1 : 0);
+		}
+		else
+		{
+			sub_length = 2 * col_length + ((index + 1 <= row_left && index < key) ? 1 : (index + 1 <= row_left) ? 2 : 0);
+		}
+		anss[index] = input.substr(input_index, sub_length);
+		input_index = input_index + sub_length;
+		indexes[index] = 0;
+	}
+	int row_index = 0;
+	bool is_down = true;
+	for (int index = 0; index < input.length(); index++)
+	{
+		ans += anss[row_index][indexes[row_index]++] - 'A' + 'a';
+		if (is_down)
+			row_index++;
+		else
+			row_index--;
+		if (row_index == 0)
+			is_down = true;
+		if (row_index == key - 1)
+			is_down = false;
 	}
 	ans += '\0';
 	return ans;
@@ -183,15 +197,15 @@ int main(int argc, char* argv[])
 	if (argc >= 5)
 	{
 		if (!strcmp(argv[2], "caesar"))
-			cout << caesar(argv[4], atoi(argv[6])) << "\n";
+			cout << caesar(argv[4], atoi(argv[6]));
 		else if (!strcmp(argv[2], "playfair"))
-			cout << playfair(argv[4], argv[6]) << "\n";
+			cout << playfair(argv[4], argv[6]);
 		else if (!strcmp(argv[2], "vernam"))
-			cout << vernam(argv[4], argv[6]) << "\n";
+			cout << vernam(argv[4], argv[6]);
 		else if (!strcmp(argv[2], "railfence"))
-			cout << railfence(argv[4], atoi(argv[6])) << "\n";
+			cout << railfence(argv[4], atoi(argv[6]));
 		else if (!strcmp(argv[2], "row"))
-			cout << row(argv[4], argv[6]) << "\n";
+			cout << row(argv[4], argv[6]);
 	}
 	else
 	{
@@ -199,7 +213,9 @@ int main(int argc, char* argv[])
 		//cout << playfair("BIHCFGFY", "monarchy");
 		//cout << vernam("QIJF", "xmcl");
 		//cout << vernam("MBDBHBDB", "m");
-		cout << railfence("MEMATRHTGPRYETEFETEOAAT", 2);
+		//cout << railfence("MEMATRHTGPRYETEFETEOAAT", 2);
+		cout << railfence("WECRUOERDSOEERNTNEAIVDAC", 3);
+		//cout << railfence("WVOEOETNACRACRSENEEIDUDR", 6);
 		//cout << row("TTNAAPTMTSUOAODWCOIXKNLYPETZ", "4312567");
 	}
 	return 0;
