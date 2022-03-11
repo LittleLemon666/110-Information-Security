@@ -3,7 +3,7 @@
 #include <vector>
 using namespace std;
 
-char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"vernam", (char*)"-i", (char*)"abcdefgh", (char*)"-k", (char*)"monarchy" };
+char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"playfair", (char*)"-i", (char*)"somebodywantstogotocornelluniversity", (char*)"-k", (char*)"cornel" };
 
 string caesar(string input, int key)
 {
@@ -21,7 +21,6 @@ string playfair(string input, string key)
 	{
 		if (key.find('a' + id) == -1) key.push_back('a' + id);
 	}
-
 	string result = "";
 
 	for (int id = 0; id < input.length(); id += 2)
@@ -79,15 +78,31 @@ string vernam(string input, string key)
 	return result;
 }
 
-string railfence(string input)
+string railfence(string input, int key)
 {
-	string odd = "", even = "";
-	for (int id = 0; id < input.length(); id++)
+	bool down = true;
+	int index = 0;
+	vector<string> strs = {};
+	for (int id = 0; id < key; id++)
 	{
-		if (id % 2 == 0) even.push_back(input[id] - 'a' + 'A');
-		else odd.push_back(input[id] - 'a' + 'A');
+		strs.push_back("");
 	}
-	return even + odd;
+	int counter = 0;
+	while (counter < (int)input.size())
+	{
+		strs[index].push_back(input[counter] - 'a' + 'A');
+		if (down) index++;
+		else index--;
+		if (index == (int)strs.size() - 1) down = false;
+		if (index == 0) down = true;
+		counter++;
+	}
+	string result = "";
+	for (int id = 0; id < key; id++)
+	{
+		result += strs[id];
+	}
+	return result;
 }
 
 string row(string input, string key)
@@ -118,7 +133,7 @@ int main(int argc, char* argv[])
 	if (cipher_type == "caesar") cout << caesar(argv[4], stoi(argv[6]));
 	else if (cipher_type == "playfair") cout << playfair(argv[4], argv[6]);
 	else if (cipher_type == "vernam") cout << vernam(argv[4], argv[6]);
-	else if (cipher_type == "railfence") cout << railfence(argv[4]);
+	else if (cipher_type == "railfence") cout << railfence(argv[4], stoi(argv[6]));
 	else if (cipher_type == "row") cout << row(argv[4], argv[6]);
 	return 0;
 }
