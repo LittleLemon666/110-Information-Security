@@ -106,17 +106,30 @@ string vernam(string input, string key)
 	return ans;
 }
 
-string railfence(string input)
+string railfence(string input, int key)
 {
 	string ans;
-	int m = input.length() / 2;
-	int p = 0, q = m + 1;
-	for (int index = 0; index < input.length(); index++)
+	string *anss = new string[key];
+	int row_length = 2 * key - 2;
+	int row_left = input.length() % row_length;
+	int col_length = input.length() / row_length;
+	for (int index = 0; index < input.length() - row_left; index++)
 	{
-		if (index % 2 == 0)
-			ans += input[p++] - 'A' + 'a';
+		if (index / col_length < key)
+			anss[index / col_length] += input[index];
 		else
-			ans += input[q++] - 'A' + 'a';
+			anss[key - (index / row_length - key)] += input[index];
+	}
+	for (int index = 0; index < row_left; index++)
+	{
+		if (index < key)
+			anss[index] += input[input.length() - row_left + index];
+		else
+			anss[key - (index / row_length - key)] += input[input.length() - row_left + index];
+	}
+	for (int index = 0; index < key; index++)
+	{
+		ans += anss[index];
 	}
 	ans += '\0';
 	return ans;
@@ -176,17 +189,17 @@ int main(int argc, char* argv[])
 		else if (!strcmp(argv[2], "vernam"))
 			cout << vernam(argv[4], argv[6]) << "\n";
 		else if (!strcmp(argv[2], "railfence"))
-			cout << railfence(argv[4]) << "\n";
+			cout << railfence(argv[4], atoi(argv[6])) << "\n";
 		else if (!strcmp(argv[2], "row"))
 			cout << row(argv[4], argv[6]) << "\n";
 	}
 	else
 	{
-		cout << caesar("MQTPEMRXIBX", 4);
+		//cout << caesar("MQTPEMRXIBX", 4);
 		//cout << playfair("BIHCFGFY", "monarchy");
 		//cout << vernam("QIJF", "xmcl");
 		//cout << vernam("MBDBHBDB", "m");
-		//cout << railfence("MEMATRHTGPRYETEFETEOAAT");
+		cout << railfence("MEMATRHTGPRYETEFETEOAAT", 2);
 		//cout << row("TTNAAPTMTSUOAODWCOIXKNLYPETZ", "4312567");
 	}
 	return 0;
