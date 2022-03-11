@@ -3,7 +3,7 @@
 #include <vector>
 using namespace std;
 
-char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"playfair", (char*)"-i", (char*)"somebodywantstogotocornelluniversity", (char*)"-k", (char*)"cornel" };
+char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"row", (char*)"-i", (char*)"thisisthelastcipherofthishomeworkproject", (char*)"-k", (char*)"4231576" };
 
 string caesar(string input, int key)
 {
@@ -17,12 +17,12 @@ string caesar(string input, int key)
 
 string playfair(string input, string key)
 {
-	for (int id = 0; id < 26 && id != 9; id++)
+	for (int id = 0; id < 26; id++)
 	{
-		if (key.find('a' + id) == -1) key.push_back('a' + id);
+		if (id != 9 && key.find('a' + id) == -1) key.push_back('a' + id);
 	}
+	cout << key << endl;
 	string result = "";
-
 	for (int id = 0; id < input.length(); id += 2)
 	{
 		int pos1 = key.find(input[id]);
@@ -35,8 +35,9 @@ string playfair(string input, string key)
 			pos2 = key.find('x');
 			id--;
 		}
+
 		//same row
-		else if (pos1 / 5 == pos2 / 5)
+		if (pos1 / 5 == pos2 / 5)
 		{
 			pos1++;
 			pos2++;
@@ -115,7 +116,7 @@ string row(string input, string key)
 	}
 	for (int id = 0; id < input.length(); id++)
 	{
-		list[id % key.length()].push_back(input[id % key.length()] - 'a' + 'A');
+		list[id % key.length()].push_back(input[id] - 'a' + 'A');
 	}
 	for (int id = 0; id < key.length(); id++)
 	{
@@ -126,8 +127,8 @@ string row(string input, string key)
 
 int main(int argc, char* argv[])
 {
-	argc = 7;
-	argv = args;
+	//argc = 7;
+	//argv = args;
 
 	string cipher_type = argv[2];
 	if (cipher_type == "caesar") cout << caesar(argv[4], stoi(argv[6]));
