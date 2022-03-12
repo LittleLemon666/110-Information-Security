@@ -1,5 +1,5 @@
 #include <iostream>
-#include <string>
+#include <cstring>
 using namespace std;
 
 void find_row_col(char matrix[5][5], char input, int& row, int& col)
@@ -181,15 +181,15 @@ int main(int argc, char* argv[])
 	if (argc >= 5)
 	{
 		if (!strcmp(argv[2], "caesar"))
-			cout << caesar(argv[4], atoi(argv[6]));
+			cout << caesar(argv[4], atoi(argv[6])) << "\n";
 		else if (!strcmp(argv[2], "playfair"))
-			cout << playfair(argv[4], argv[6]);
+			cout << playfair(argv[4], argv[6]) << "\n";
 		else if (!strcmp(argv[2], "vernam"))
-			cout << vernam(argv[4], argv[6]);
+			cout << vernam(argv[4], argv[6]) << "\n";
 		else if (!strcmp(argv[2], "railfence"))
-			cout << railfence(argv[4], atoi(argv[6]));
+			cout << railfence(argv[4], atoi(argv[6])) << "\n";
 		else if (!strcmp(argv[2], "row"))
-			cout << row(argv[4], argv[6]);
+			cout << row(argv[4], argv[6]) << "\n";
 	}
 	else
 	{
