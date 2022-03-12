@@ -1,9 +1,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cstring>
 using namespace std;
 
-char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"row", (char*)"-i", (char*)"thisisthelastcipherofthishomeworkprojectyz", (char*)"-k", (char*)"4231576" };
+char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"playfair", (char*)"-i", (char*)"abcdefgh", (char*)"-k", (char*)"monarchy" };
 
 string caesar(string input, int key)
 {
@@ -126,14 +127,15 @@ string row(string input, string key)
 
 int main(int argc, char* argv[])
 {
-	//argc = 7;
-	//argv = args;
-
+	argc = 7;
+	argv = args;
+	string answer = "";
 	string cipher_type = argv[2];
-	if (cipher_type == "caesar") cout << caesar(argv[4], stoi(argv[6]));
-	else if (cipher_type == "playfair") cout << playfair(argv[4], argv[6]);
-	else if (cipher_type == "vernam") cout << vernam(argv[4], argv[6]);
-	else if (cipher_type == "railfence") cout << railfence(argv[4], stoi(argv[6]));
-	else if (cipher_type == "row") cout << row(argv[4], argv[6]);
+	if (cipher_type == "caesar") answer = caesar(argv[4], stoi(argv[6]));
+	else if (cipher_type == "playfair") answer = playfair(argv[4], argv[6]);
+	else if (cipher_type == "vernam") answer = vernam(argv[4], argv[6]);
+	else if (cipher_type == "railfence") answer = railfence(argv[4], stoi(argv[6]));
+	else if (cipher_type == "row") answer = row(argv[4], argv[6]);
+	cout << answer << "\n";
 	return 0;
 }
