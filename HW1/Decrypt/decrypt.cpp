@@ -56,14 +56,6 @@ string playfair(string input, string key)
 		matrix[matrix_index / 5][matrix_index % 5] = 'a' + ch_index;
 		character[ch_index] = true;
 	}
-	/*for (int i = 0; i < 5; i++)
-	{
-		for (int j = 0; j < 5; j++)
-		{
-			cout << matrix[i][j] << " ";
-		}
-		cout << "\n";
-	}*/
 	for (int index = 0; index < input.length(); index += 2)
 	{
 		int row_a, col_a, row_b, col_b;
@@ -146,6 +138,7 @@ string railfence(string input, int key)
 			is_down = false;
 	}
 	ans += '\0';
+	delete[] anss;
 	return ans;
 }
 
@@ -161,33 +154,24 @@ string row(string input, string key)
 	int rows = input.length() / cols;
 	if (input.length() % cols > 0)
 		rows++;
-	char** anss = new char*[rows];
+	string* anss = new string[rows];
 	for (int r = 0; r < rows; r++)
-		anss[r] = new char[cols + 1];
-	int input_index = 0;
-	int c = 1;
-	int c_index = 1;
-	for (; input_index < input.length();)
+		anss[r] = "";
+	for (int key_index = 0; key_index < key.length(); key_index++)
 	{
-		for (int key_index = 0; key_index < key.length(); key_index++)
+		int row = (key[key_index] - '0' - 1) * rows;
+		int input_index = row;
+		for (int row_index = 0; row_index < rows && input_index < input.length(); row_index++, input_index++)
 		{
-			if (c == key[key_index] - '0')
-			{
-				c_index = key_index;
-				c++;
-				break;
-			}
-		}
-		for (int r = 0; r < rows; r++)
-		{
-			anss[r][c_index] = input[input_index++] - 'A' + 'a';
+			anss[row_index] += input[input_index] - 'A' + 'a';
 		}
 	}
 	for (int r = 0; r < rows; r++)
 	{
-		anss[r][cols] = '\0';
 		ans += anss[r];
+		anss[r] += '\0';
 	}
+	ans += '\0';
 	delete[] anss;
 	return ans;
 }
@@ -214,9 +198,10 @@ int main(int argc, char* argv[])
 		//cout << vernam("QIJF", "xmcl");
 		//cout << vernam("MBDBHBDB", "m");
 		//cout << railfence("MEMATRHTGPRYETEFETEOAAT", 2);
-		cout << railfence("WECRUOERDSOEERNTNEAIVDAC", 3);
+		//cout << railfence("WECRUOERDSOEERNTNEAIVDAC", 3);
 		//cout << railfence("WVOEOETNACRACRSENEEIDUDR", 6);
-		//cout << row("TTNAAPTMTSUOAODWCOIXKNLYPETZ", "4312567");
+		cout << row("TTNAAPTMTSUOAODWCOIXKNLYPETZ", "4312567");
+		//cout << row("ILHIOJSAESREHEPHWOTHITERISRHKCSTOOPTTCFM", "4312567");
 	}
 	return 0;
 }
