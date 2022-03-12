@@ -20,7 +20,7 @@ string playfair(string input, string key)
 {
 	for (int id = 0; id < 26; id++)
 	{
-		if (id != 9 && key.find('a' + id) == -1) key.push_back('a' + id);
+		if (id != 9 && key.find('a' + id) == -1) key += 'a' + id;
 	}
 	string result = "";
 	for (int id = 0; id < input.length(); id += 2)
@@ -61,8 +61,8 @@ string playfair(string input, string key)
 			pos2 = (((backup2 / 5) * 5) + (backup1 % 5));
 		}
 
-		result.push_back(key[pos1] - 'a' + 'A');
-		result.push_back(key[pos2] - 'a' + 'A');
+		result += key[pos1] - 'a' + 'A';
+		result += key[pos2] - 'a' + 'A';
 	}
 	return result;
 }
@@ -74,7 +74,7 @@ string vernam(string input, string key)
 	for (int id = 0; id < input.length(); id++)
 	{
 		int num1 = input[id] - 'a', num2 = key[id] - 'a';
-		result.push_back('A' + (num1 ^ num2));
+		result += 'A' + (num1 ^ num2);
 	}
 	return result;
 }
@@ -91,7 +91,7 @@ string railfence(string input, int key)
 	int counter = 0;
 	while (counter < (int)input.size())
 	{
-		strs[index].push_back(input[counter] - 'a' + 'A');
+		strs[index] += input[counter] - 'a' + 'A';
 		if (down) index++;
 		else index--;
 		if (index == (int)strs.size() - 1) down = false;
@@ -116,7 +116,7 @@ string row(string input, string key)
 	}
 	for (int id = 0; id < input.length(); id++)
 	{
-		list[id % key.length()].push_back(input[id] - 'a' + 'A');
+		list[id % key.length()] += input[id] - 'a' + 'A';
 	}
 	for (int id = 0; id < key.length(); id++)
 	{
