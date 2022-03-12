@@ -127,8 +127,8 @@ string row(string input, string key)
 
 int main(int argc, char* argv[])
 {
-	argc = 7;
-	argv = args;
+	//argc = 7;
+	//argv = args;
 	string answer = "";
 	string cipher_type = argv[2];
 	if (cipher_type == "caesar") answer = caesar(argv[4], stoi(argv[6]));
