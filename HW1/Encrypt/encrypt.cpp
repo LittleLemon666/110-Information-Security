@@ -3,7 +3,7 @@
 #include <vector>
 using namespace std;
 
-char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"row", (char*)"-i", (char*)"thisisthelastcipherofthishomeworkproject", (char*)"-k", (char*)"4231576" };
+char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"row", (char*)"-i", (char*)"thisisthelastcipherofthishomeworkprojectyz", (char*)"-k", (char*)"4231576" };
 
 string caesar(string input, int key)
 {
@@ -21,7 +21,6 @@ string playfair(string input, string key)
 	{
 		if (id != 9 && key.find('a' + id) == -1) key.push_back('a' + id);
 	}
-	cout << key << endl;
 	string result = "";
 	for (int id = 0; id < input.length(); id += 2)
 	{
@@ -120,7 +119,7 @@ string row(string input, string key)
 	}
 	for (int id = 0; id < key.length(); id++)
 	{
-		result += list[key[id] - '1'];
+		result += list[key.find('1' + id)];
 	}
 	return result;
 }
