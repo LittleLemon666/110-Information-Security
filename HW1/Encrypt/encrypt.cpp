@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 #include <vector>
 #include <cstring>
 using namespace std;
@@ -26,7 +25,7 @@ string playfair(string input, string key)
 	for (int id = 0; id < input.length(); id += 2)
 	{
 		int pos1 = key.find(input[id]);
-		int pos2 = key.find((id + 1 == input.length()) ? 'x' : input[id + 1]);
+		int pos2 = key.find((id + 1 == (int)input.length()) ? 'x' : input[id + 1]);
 
 		//repeated letter
 		if (pos1 == pos2)
@@ -127,14 +126,14 @@ string row(string input, string key)
 
 int main(int argc, char* argv[])
 {
-	//argc = 7;
-	//argv = args;
+	argc = 7;
+	argv = args;
 	string answer = "";
 	string cipher_type = argv[2];
-	if (cipher_type == "caesar") answer = caesar(argv[4], stoi(argv[6]));
+	if (cipher_type == "caesar") answer = caesar(argv[4], atoi(argv[6]));
 	else if (cipher_type == "playfair") answer = playfair(argv[4], argv[6]);
 	else if (cipher_type == "vernam") answer = vernam(argv[4], argv[6]);
-	else if (cipher_type == "railfence") answer = railfence(argv[4], stoi(argv[6]));
+	else if (cipher_type == "railfence") answer = railfence(argv[4], atoi(argv[6]));
 	else if (cipher_type == "row") answer = row(argv[4], argv[6]);
 	cout << answer << "\n";
 	return 0;
