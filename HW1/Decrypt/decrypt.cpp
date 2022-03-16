@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <vector>
 using namespace std;
 
 void find_row_col(char matrix[5][5], char input, int& row, int& col)
@@ -180,16 +181,29 @@ int main(int argc, char* argv[])
 {
 	if (argc >= 5)
 	{
+		string a = argv[4];
+		string input, key;
+		for (int i = 0; i < a.length(); i++)
+		{
+			if ((a[i] >= 'a' && a[i] <= 'z') || (a[i] >= 'A' && a[i] <= 'Z'))
+				input += a[i];
+		}
+		a = argv[6];
+		for (int i = 0; i < a.length(); i++)
+		{
+			if ((a[i] >= 'a' && a[i] <= 'z') || (a[i] >= 'A' && a[i] <= 'Z'))
+				key += a[i];
+		}
 		if (!strcmp(argv[2], "caesar"))
-			cout << caesar(argv[4], atoi(argv[6])) << "\n";
+			cout << caesar(input, atoi(argv[6])) << "\n";
 		else if (!strcmp(argv[2], "playfair"))
-			cout << playfair(argv[4], argv[6]) << "\n";
+			cout << playfair(input, key) << "\n";
 		else if (!strcmp(argv[2], "vernam"))
-			cout << vernam(argv[4], argv[6]) << "\n";
+			cout << vernam(input, key) << "\n";
 		else if (!strcmp(argv[2], "railfence"))
-			cout << railfence(argv[4], atoi(argv[6])) << "\n";
+			cout << railfence(input, atoi(argv[6])) << "\n";
 		else if (!strcmp(argv[2], "row"))
-			cout << row(argv[4], argv[6]) << "\n";
+			cout << row(input, key) << "\n";
 	}
 	else
 	{
