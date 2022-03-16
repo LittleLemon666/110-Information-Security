@@ -87,27 +87,6 @@ string vernam(string input, string old_key)
 		result += ('A' + ((input[id] - 'a') ^ (input[id - count] - 'a')));
 	}
 	return result + '\0';
-
-	char* key = new char[input.length() - 1 + old_key.length()];
-	for (int id = 0; id < old_key.length() - 1; id++)
-	{
-		key[id] = old_key[id];
-	}
-	for (int id = 0; id < input.length(); id++)
-	{
-		key[id + old_key.length()] = input[id];
-	}
-	for (int id = 0; id < input.length() + old_key.length(); id++)
-	{
-		cout << key[id] << "\n";
-	}
-	//string key = old_key + input;
-	for (int id = 0; id < (int)input.size(); id++)
-	{
-		char num1 = input[id] - 'a', num2 = key[id] - 'a';
-		result += 'A' + (num1 ^ num2);
-	}
-	return result + '\0';
 }
 
 string railfence(string input, int key)
@@ -160,13 +139,31 @@ int main(int argc, char* argv[])
 {
 	//argc = 7;
 	//argv = args;
+	string first = argv[4];
+	string second = argv[6];
+	string _first = "";
+	string _second = "";
+	for (int id = 0; id < first.length(); id++)
+	{
+		if (first[id] >= 'a' && first[id] <= 'z')
+		{
+			_first += first[id];
+		}
+	}
+	for (int id = 0; id < second.length(); id++)
+	{
+		if (second[id] >= 'a' && second[id] <= 'z')
+		{
+			_second += second[id];
+		}
+	}
 	string answer = "";
 	string cipher_type = argv[2];
-	if (cipher_type == "caesar") answer = caesar(argv[4], atoi(argv[6]));
-	else if (cipher_type == "playfair") answer = playfair(argv[4], argv[6]);
-	else if (cipher_type == "vernam") answer = vernam(argv[4], argv[6]);
-	else if (cipher_type == "railfence") answer = railfence(argv[4], atoi(argv[6]));
-	else if (cipher_type == "row") answer = row(argv[4], argv[6]);
+	if (cipher_type == "caesar") answer = caesar(_first, atoi(argv[6]));
+	else if (cipher_type == "playfair") answer = playfair(_first, _second);
+	else if (cipher_type == "vernam") answer = vernam(_first, _second);
+	else if (cipher_type == "railfence") answer = railfence(_first, atoi(argv[6]));
+	else if (cipher_type == "row") answer = row(_first, _second);
 	cout << answer << "\n";
 	return 0;
 }
