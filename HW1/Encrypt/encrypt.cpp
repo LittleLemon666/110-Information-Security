@@ -68,9 +68,17 @@ string playfair(string input, string key)
 
 string vernam(string input, string old_key)
 {
-	cout << old_key << '\n';
-	string key = old_key + input;
-	cout << key << '\n';
+	string key = "";
+	for (int id = 0; id < input.length(); id++)
+	{
+		key += input[id];
+	}
+	for (int id = 0; id < input.length(); id++)
+	{
+		key += old_key[id];
+	}
+	cout << input.length() << "\n";
+	//string key = old_key + input;
 	string result = "";
 	for (int id = 0; id < input.length(); id++)
 	{
