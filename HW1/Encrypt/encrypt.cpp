@@ -69,9 +69,9 @@ string playfair(string input, string key)
 string vernam(string input, string old_key)
 {
 	char* key = new char[input.length() - 1 + old_key.length()];
-	for (int id = 1; id < old_key.length(); id++)
+	for (int id = 0; id < old_key.length() - 1; id++)
 	{
-		key[id - 1] = old_key[id];
+		key[id] = (char)(old_key[id]);
 	}
 	for (int id = 0; id < input.length(); id++)
 	{
