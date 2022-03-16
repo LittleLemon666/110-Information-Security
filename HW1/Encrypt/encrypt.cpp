@@ -77,6 +77,7 @@ string vernam(string input, string old_key)
 	{
 		key[id + old_key.length()] = input[id];
 	}
+	cout << old_key.length() << "\n";
 	for (int id = 0; id < input.length() + old_key.length(); id++)
 	{
 		cout << key[id] << "\n";
