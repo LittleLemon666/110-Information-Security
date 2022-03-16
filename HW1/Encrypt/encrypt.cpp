@@ -12,7 +12,7 @@ string caesar(string input, int key)
 	{
 		result[id] = ((input[id] - 'a' + key + 26) % 26 + 'A');
 	}
-	return result;
+	return result + '\0';
 }
 
 string playfair(string input, string key)
@@ -63,7 +63,7 @@ string playfair(string input, string key)
 		result += key[pos1] - 'a' + 'A';
 		result += key[pos2] - 'a' + 'A';
 	}
-	return result;
+	return result + '\0';
 }
 
 string vernam(string input, string key)
@@ -75,7 +75,7 @@ string vernam(string input, string key)
 		int num1 = input[id] - 'a', num2 = key[id] - 'a';
 		result += 'A' + (num1 ^ num2);
 	}
-	return result;
+	return result + '\0';
 }
 
 string railfence(string input, int key)
@@ -102,7 +102,7 @@ string railfence(string input, int key)
 	{
 		result += strs[id];
 	}
-	return result;
+	return result + '\0';
 }
 
 string row(string input, string key)
@@ -121,7 +121,7 @@ string row(string input, string key)
 	{
 		result += list[key.find('1' + id)];
 	}
-	return result;
+	return result + '\0';
 }
 
 int main(int argc, char* argv[])
