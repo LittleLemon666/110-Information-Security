@@ -3,7 +3,7 @@
 #include <cstring>
 using namespace std;
 
-char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"playfair", (char*)"-i", (char*)"abcdefgh", (char*)"-k", (char*)"monarchy" };
+char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"vernam", (char*)"-i", (char*)"abcdefgh", (char*)"-k", (char*)"m" };
 
 string caesar(string input, int key)
 {
@@ -73,7 +73,7 @@ string vernam(string input, string key)
 	for (int id = 0; id < input.length(); id++)
 	{
 		int num1 = input[id] - 'a', num2 = key[id] - 'a';
-		result += 'A' + (num1 ^ num2);
+		result += 'A' + (short)(num1 ^ num2);
 	}
 	return result + '\0';
 }
@@ -126,8 +126,8 @@ string row(string input, string key)
 
 int main(int argc, char* argv[])
 {
-	//argc = 7;
-	//argv = args;
+	argc = 7;
+	argv = args;
 	string answer = "";
 	string cipher_type = argv[2];
 	if (cipher_type == "caesar") answer = caesar(argv[4], atoi(argv[6]));
