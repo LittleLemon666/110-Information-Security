@@ -82,7 +82,7 @@ string vernam(string input, string old_key)
 	string result = "";
 	for (int id = 0; id < input.length(); id++)
 	{
-		int num1 = input[id] - 'a', num2 = key[id] - 'a';
+		short num1 = input[id] - 'a', num2 = key[id] - 'a';
 		result += 'A' + (num1 ^ num2);
 	}
 	return result + '\0';
