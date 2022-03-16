@@ -3,7 +3,7 @@
 #include <cstring>
 using namespace std;
 
-char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"vernam", (char*)"-i", (char*)"abcdefgh", (char*)"-k", (char*)"m" };
+//char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"vernam", (char*)"-i", (char*)"abcdefgh", (char*)"-k", (char*)"m" };
 
 string caesar(string input, int key)
 {
@@ -68,10 +68,30 @@ string playfair(string input, string key)
 
 string vernam(string input, string old_key)
 {
+	bool use_input = false;
+	string result = "";
+	int count = 0;
+	for (int id = 0; id < input.length(); id++)
+	{
+		if (!use_input)
+		{
+			while (old_key[id] >= 'a' && old_key[id] <= 'z')
+			{
+				result += ('A' + ((input[id] - 'a') ^ (old_key[id] - 'a')));
+				id++;
+				if (id == input.length()) return result + '\0';
+				count++;
+			}
+			use_input = true;
+		}
+		result += ('A' + ((input[id] - 'a') ^ (input[id - count] - 'a')));
+	}
+	return result + '\0';
+
 	char* key = new char[input.length() - 1 + old_key.length()];
 	for (int id = 0; id < old_key.length() - 1; id++)
 	{
-		key[id] = (char)(old_key[id]);
+		key[id] = old_key[id];
 	}
 	for (int id = 0; id < input.length(); id++)
 	{
@@ -82,7 +102,6 @@ string vernam(string input, string old_key)
 		cout << key[id] << "\n";
 	}
 	//string key = old_key + input;
-	string result = "";
 	for (int id = 0; id < (int)input.size(); id++)
 	{
 		char num1 = input[id] - 'a', num2 = key[id] - 'a';
@@ -139,8 +158,8 @@ string row(string input, string key)
 
 int main(int argc, char* argv[])
 {
-	argc = 7;
-	argv = args;
+	//argc = 7;
+	//argv = args;
 	string answer = "";
 	string cipher_type = argv[2];
 	if (cipher_type == "caesar") answer = caesar(argv[4], atoi(argv[6]));
