@@ -3,7 +3,7 @@
 #include <cstring>
 using namespace std;
 
-//char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"vernam", (char*)"-i", (char*)"abcdefgh", (char*)"-k", (char*)"m" };
+char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"vernam", (char*)"-i", (char*)"abcdefgh", (char*)"-k", (char*)"m" };
 
 string caesar(string input, int key)
 {
@@ -68,8 +68,8 @@ string playfair(string input, string key)
 
 string vernam(string input, string old_key)
 {
-	char* key = new char[input.length() + old_key.length()];
-	for (int id = 0; id < old_key.length(); id++)
+	char* key = new char[input.length() - 1 + old_key.length()];
+	for (int id = 0; id < old_key.length() - 1; id++)
 	{
 		key[id] = old_key[id];
 	}
@@ -77,14 +77,13 @@ string vernam(string input, string old_key)
 	{
 		key[id + old_key.length()] = input[id];
 	}
-	cout << old_key.length() << "\n";
 	for (int id = 0; id < input.length() + old_key.length(); id++)
 	{
 		cout << key[id] << "\n";
 	}
 	//string key = old_key + input;
 	string result = "";
-	for (int id = 0; id < input.length(); id++)
+	for (int id = 0; id < (int)input.size(); id++)
 	{
 		char num1 = input[id] - 'a', num2 = key[id] - 'a';
 		result += 'A' + (num1 ^ num2);
@@ -140,8 +139,8 @@ string row(string input, string key)
 
 int main(int argc, char* argv[])
 {
-	//argc = 7;
-	//argv = args;
+	argc = 7;
+	argv = args;
 	string answer = "";
 	string cipher_type = argv[2];
 	if (cipher_type == "caesar") answer = caesar(argv[4], atoi(argv[6]));
