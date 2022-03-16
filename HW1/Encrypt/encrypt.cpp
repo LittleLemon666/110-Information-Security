@@ -71,18 +71,19 @@ string vernam(string input, string old_key)
 	string key = "";
 	for (int id = 0; id < input.length(); id++)
 	{
-		key += input[id];
+		key += old_key[id];
 	}
 	for (int id = 0; id < input.length(); id++)
 	{
-		key += old_key[id];
+		key += input[id];
 	}
+	key += "\0";
 	cout << key << "\n";
 	//string key = old_key + input;
 	string result = "";
 	for (int id = 0; id < input.length(); id++)
 	{
-		short num1 = input[id] - 'a', num2 = key[id] - 'a';
+		char num1 = input[id] - 'a', num2 = key[id] - 'a';
 		result += 'A' + (num1 ^ num2);
 	}
 	return result + '\0';
