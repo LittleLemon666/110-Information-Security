@@ -66,10 +66,10 @@ string playfair(string input, string key)
 	return result + '\0';
 }
 
-string vernam(string input, string key)
+string vernam(string input, string old_key)
 {
-	cout << key << '\n';
-	key = key + input;
+	cout << old_key << '\n';
+	string key = old_key + input;
 	cout << key << '\n';
 	string result = "";
 	for (int id = 0; id < input.length(); id++)
