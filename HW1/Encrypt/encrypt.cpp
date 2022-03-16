@@ -68,6 +68,7 @@ string playfair(string input, string key)
 
 string vernam(string input, string key)
 {
+	cout << key << '\n';
 	key += input;
 	cout << key << '\n';
 	string result = "";
