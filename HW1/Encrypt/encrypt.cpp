@@ -145,14 +145,14 @@ int main(int argc, char* argv[])
 	string _second = "";
 	for (int id = 0; id < first.length(); id++)
 	{
-		if (first[id] >= 'a' && first[id] <= 'z')
+		if ((first[id] >= 'a' && first[id] <= 'z') || (second[id] >= '0' && second[id] <= '9'))
 		{
 			_first += first[id];
 		}
 	}
 	for (int id = 0; id < second.length(); id++)
 	{
-		if (second[id] >= 'a' && second[id] <= 'z' || second[id] >= '0' && second[id] <= '9')
+		if ((second[id] >= 'a' && second[id] <= 'z') || (second[id] >= '0' && second[id] <= '9'))
 		{
 			_second += second[id];
 		}
