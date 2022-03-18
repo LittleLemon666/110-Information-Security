@@ -3,7 +3,7 @@
 #include <cstring>
 using namespace std;
 
-//char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"vernam", (char*)"-i", (char*)"abcdefgh", (char*)"-k", (char*)"m" };
+//char* args[] = { (char*)"encrypt.o", (char*)"-m", (char*)"row", (char*)"-i", (char*)"thisisthelastcipherofthishomeworkprojectyz", (char*)"-k", (char*)"4231576" };
 
 string caesar(string input, int key)
 {
@@ -152,7 +152,7 @@ int main(int argc, char* argv[])
 	}
 	for (int id = 0; id < second.length(); id++)
 	{
-		if (second[id] >= 'a' && second[id] <= 'z')
+		if (second[id] >= 'a' && second[id] <= 'z' || second[id] >= '0' && second[id] <= '9')
 		{
 			_second += second[id];
 		}
