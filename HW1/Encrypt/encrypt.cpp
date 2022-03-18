@@ -118,6 +118,7 @@ string railfence(string input, int key)
 
 string row(string input, string key)
 {
+	cout << key << "\n";
 	string result = "";
 	vector<string> list = {};
 	for (int id = 0; id < key.length(); id++)
