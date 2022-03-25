@@ -185,13 +185,13 @@ int main(int argc, char* argv[])
 		string input, key;
 		for (int i = 0; i < a.length(); i++)
 		{
-			if ((a[i] >= 'a' && a[i] <= 'z') || (a[i] >= 'A' && a[i] <= 'Z'))
+			if ((a[i] >= 'a' && a[i] <= 'z') || (a[i] >= 'A' && a[i] <= 'Z') || (a[i] >= '0' && a[i] <= '9'))
 				input += a[i];
 		}
 		a = argv[6];
 		for (int i = 0; i < a.length(); i++)
 		{
-			if ((a[i] >= 'a' && a[i] <= 'z') || (a[i] >= 'A' && a[i] <= 'Z'))
+			if ((a[i] >= 'a' && a[i] <= 'z') || (a[i] >= 'A' && a[i] <= 'Z') || (a[i] >= '0' && a[i] <= '9'))
 				key += a[i];
 		}
 		if (!strcmp(argv[2], "caesar"))
