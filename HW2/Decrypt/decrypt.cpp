@@ -310,9 +310,11 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		cout << deDES("456", "123") << "\n";
-		cout << deDES("CCA1434BF1A523AF", "123") << "\n";
-		cout << deDES("C0B7A8D05F3A829C", "AABB09182736CCDD") << "\n";
+		cout << deDES("456", "123") << "\n"; // 7A2EBB2A6D33F9DD
+		cout << deDES("854CB4CE7143D216", "123") << "\n"; // 456
+		cout << deDES("CCA1434BF1A523AF", "123") << "\n"; // AA73DBB3992FB82B
+		cout << deDES("50F60D0EFC5331E1", "123") << "\n"; // 67B8280A0339FA3
+		cout << deDES("C0B7A8D05F3A829C", "AABB09182736CCDD") << "\n"; // 123456ABCD132536
 	}
 	return 0;
 }
