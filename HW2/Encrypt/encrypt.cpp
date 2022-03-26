@@ -225,7 +225,7 @@ string encrypt(string pt, vector<string> rkb, vector<string> rk)
     return cipher;
 }
 
-//char* args[] = { (char*)"encrypt.o", (char*)"-i", (char*)"0x456", (char*)"-k", (char*)"0x123" };
+//char* args[] = { (char*)"encrypt.o", (char*)"-i", (char*)"0x123456ABCD132536", (char*)"-k", (char*)"0xAABB09182736CCDD" };
 
 int main(int argc, char* argv[])
 {
@@ -237,22 +237,23 @@ int main(int argc, char* argv[])
     second = second.substr(2);
 
     // pt is plain text
-    string pt, key;
-
+    string pt = "", key = "";
+    
     for (int id = 0; id < first.length(); id++)
     {
-        if ((first[id] >= 'a' && first[id] <= 'z') || (first[id] >= 'A' && first[id] <= 'Z') || (second[id] >= '0' && second[id] <= '9'))
+        if ((first[id] >= 'a' && first[id] <= 'z') || (first[id] >= 'A' && first[id] <= 'Z') || (first[id] >= '0' && first[id] <= '9'))
         {
             pt += first[id];
         }
     }
     for (int id = 0; id < second.length(); id++)
     {
-        if ((second[id] >= 'a' && second[id] <= 'z') || (first[id] >= 'A' && first[id] <= 'Z') || (second[id] >= '0' && second[id] <= '9'))
+        if ((second[id] >= 'a' && second[id] <= 'z') || (second[id] >= 'A' && second[id] <= 'Z') || (second[id] >= '0' && second[id] <= '9'))
         {
             key += second[id];
         }
     }
+
     while (pt.length() < 16)
     {
         pt = "0" + pt;
