@@ -1,11 +1,11 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <unordered_map>
 using namespace std;
 
 string hex2bin(string s)
 {
-    // hexadecimal to binary conversion
     unordered_map<char, string> mp;
     mp['0'] = "0000";
     mp['1'] = "0001";
@@ -23,15 +23,16 @@ string hex2bin(string s)
     mp['D'] = "1101";
     mp['E'] = "1110";
     mp['F'] = "1111";
+
     string bin = "";
     for (int i = 0; i < s.size(); i++) {
         bin += mp[s[i]];
     }
     return bin;
 }
+
 string bin2hex(string s)
 {
-    // binary to hexadecimal conversion
     unordered_map<string, string> mp;
     mp["0000"] = "0";
     mp["0001"] = "1";
@@ -49,6 +50,7 @@ string bin2hex(string s)
     mp["1101"] = "D";
     mp["1110"] = "E";
     mp["1111"] = "F";
+
     string hex = "";
     for (int i = 0; i < s.length(); i += 4) {
         string ch = "";
@@ -97,12 +99,11 @@ string xor_(string a, string b)
     }
     return ans;
 }
+
 string encrypt(string pt, vector<string> rkb, vector<string> rk)
 {
-    // Hexadecimal to binary
     pt = hex2bin(pt);
 
-    // Initial Permutation Table
     int initial_perm[64] = { 58, 50, 42, 34, 26, 18, 10, 2,
                              60, 52, 44, 36, 28, 20, 12, 4,
                              62, 54, 46, 38, 30, 22, 14, 6,
@@ -113,13 +114,10 @@ string encrypt(string pt, vector<string> rkb, vector<string> rk)
                              63, 55, 47, 39, 31, 23, 15, 7 };
     // Initial Permutation
     pt = permute(pt, initial_perm, 64);
-    //cout << "After initial permutation: " << bin2hex(pt) << endl;
 
     // Splitting
     string left = pt.substr(0, 32);
     string right = pt.substr(32, 32);
-    //cout << "After splitting: L0=" << bin2hex(left)
-    //    << " R0=" << bin2hex(right) << endl;
 
     // Expansion D-box Table
     int exp_d[48] = { 32, 1, 2, 3, 4, 5, 4, 5,
@@ -174,7 +172,6 @@ string encrypt(string pt, vector<string> rkb, vector<string> rk)
                     19, 13, 30, 6,
                     22, 11, 4, 25 };
 
-    //cout << endl;
     for (int i = 0; i < 16; i++) {
         // Expansion D-box
         string right_expanded = permute(right, exp_d, 48);
@@ -208,8 +205,6 @@ string encrypt(string pt, vector<string> rkb, vector<string> rk)
         if (i != 15) {
             swap(left, right);
         }
-        //cout << "Round " << i + 1 << " " << bin2hex(left) << " "
-        //    << bin2hex(right) << " " << rk[i] << endl;
     }
 
     // Combination
@@ -269,16 +264,6 @@ int main(int argc, char* argv[])
 
     string answer = "";
 
-    /*cout<<"Enter plain text(in hexadecimal): ";
-    cin>>pt;
-    cout<<"Enter key(in hexadecimal): ";
-    cin>>key;*/
-
-    //pt = "123456ABCD132536";
-    //key = "AABB09182736CCDD";
-    // Key Generation
-
-    // Hex to binary
     key = hex2bin(key);
 
     // Parity bit drop table
@@ -316,6 +301,7 @@ int main(int argc, char* argv[])
 
     vector<string> rkb; // rkb for RoundKeys in binary
     vector<string> rk; // rk for RoundKeys in hexadecimal
+
     for (int i = 0; i < 16; i++) {
         // Shifting
         left = shift_left(left, shift_table[i]);
