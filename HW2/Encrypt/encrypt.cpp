@@ -225,12 +225,12 @@ string encrypt(string pt, vector<string> rkb, vector<string> rk)
     return cipher;
 }
 
-char* args[] = { (char*)"encrypt.o", (char*)"-i", (char*)"0x456", (char*)"-k", (char*)"0x123" };
+//char* args[] = { (char*)"encrypt.o", (char*)"-i", (char*)"0x456", (char*)"-k", (char*)"0x123" };
 
 int main(int argc, char* argv[])
 {
-    argc = 5;
-    argv = args;
+    //argc = 5;
+    //argv = args;
     string first = argv[2];
     string second = argv[4];
     first = first.substr(2);
@@ -319,6 +319,6 @@ int main(int argc, char* argv[])
 
     answer = encrypt(pt, rkb, rk);
 
-    cout << answer << "\n";
+    cout << "0x" << answer << "\n";
     return 0;
 }
