@@ -189,17 +189,11 @@ string XOR(string input, string key)
 string bin2hex(string s)
 {
 	string ans = "0x";
-	bool meet_zero = false;
 	for (int index = 0; index < s.length(); index += 4)
 	{
 		string sub = s.substr(index, 4);
 		if (sub == "0000")
-		{
-			if (meet_zero)
-				ans += "0";
-			else
-				meet_zero = true;
-		}
+			ans += "0";
 		else if (sub == "0001")
 			ans += "1";
 		else if (sub == "0010")
