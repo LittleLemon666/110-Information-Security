@@ -1,5 +1,6 @@
 import argparse
 import random
+import math
 
 def doSquareAndMultiply(x, H, n):
     y = 1
@@ -46,6 +47,25 @@ def generateRandomKey(bit):
         x += random.choice(["0", "1"])
     return x
 
+# ref: http://www-math.ucdenver.edu/~wcherowi/courses/m5410/exeucalg.html
+def getInverse(a, b):
+    n = a
+    qs = []
+    ps = [0, 1]
+    
+    while a % b != 0:
+        q = a // b
+        qs.append(q)
+        c = a % b
+        a = b
+        b = c
+    
+    for q in qs:
+        p = (ps[-2] - ps[-1] * q) % n
+        ps.append(p)
+
+    return ps[-1]
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--generateKey", action="store_true",
@@ -54,8 +74,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.generateKey:
-        p = ''
-        q = ''
+        p = ""
+        q = ""
         p_int = 0
         q_int = 0
         while True:
@@ -63,13 +83,34 @@ if __name__ == "__main__":
             p_int = int(str(p), base=2)
             if doMillerRabinTest(p_int):
                 break
+        print("p = " + str(p_int))
+
         while True:
             q = generateRandomKey(512)
             q_int = int(str(q), base=2)
             if doMillerRabinTest(q_int):
                 break
+        print("q = " + str(q_int))
         
         n_int = p_int * q_int
-        print("p = " + str(p_int))
-        print("q = " + str(q_int))
         print("N = " + str(n_int))
+
+        phi_int = (p_int - 1) * (q_int - 1)
+        print("phi = " + str(phi_int))
+
+        e_int = 1
+        while True:
+            e_int = random.randint(1, phi_int)
+            if math.gcd(e_int, phi_int) == 1:
+                break
+        print("e = " + str(e_int))
+
+        d_int = getInverse(phi_int, e_int)
+        # d_int = 1
+        # while True:
+        #     if d_int * e_int % phi_int == 1:
+        #         break
+        #     d_int += 1
+        print("d = " + str(d_int))
+
+        # print(getInverse(26, 15))
