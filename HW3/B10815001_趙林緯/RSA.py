@@ -120,6 +120,12 @@ def getString(msg):
     return result
 
 
+def modFunction(num, mod):
+    while num >= mod:
+        num %= mod
+    return num
+
+
 if __name__ == "__main__":
     args = sys.argv[1:]
     if (args[0] == '-i'):
@@ -144,4 +150,17 @@ if __name__ == "__main__":
 
 
     if (args[0] == '-CRT'):
-        CRT = 0
+        #referenced from https://en.wikipedia.org/wiki/RSA_(cryptosystem)
+        msg = int(base64.b64decode(args[1]).decode('ASCII'))
+        p = int(args[2], base = 10)
+        q = int(args[3], base = 10)
+        d = int(args[4], base = 10)   
+        dp = modFunction(d, (p - 1))
+        dq = modFunction(d, (q - 1))
+        qinv = pow(q, -1, p)
+        m1 = Square_and_Multiply(msg, dp, p)
+        m2 = Square_and_Multiply(msg, dq, q)
+        h = modFunction((qinv * (m1 - m2)), p)
+        m = modFunction((m2 + h * q), (p * q))
+        str_text = getString(str(m))
+        print(str_text)
