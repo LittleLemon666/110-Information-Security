@@ -94,15 +94,15 @@ def decrypt(ciphertext, n, d):
 def CRT(ciphertext, p, q, d):
     n = p * q                  
     x = int(base64.b64decode(ciphertext))                           # convert base 64 back to a bignumber
-    xp = x % p                                                      # Transformation y mod p = yp
-    xq = x % q                                                      # Transformation y mod q = yq
-    dp = d % (p - 1)
-    dq = d % (q - 1)
-    yp = pow(xp, dp, p)
-    yq = pow(xq, dq, q)
-    cp = getInverse(p, q)
-    cq = getInverse(q, p)
-    y = ((q * cp) * yp + (p * cq) * yq) % n
+    xp = x % p                                                      # Transformation xp = x mod p
+    xq = x % q                                                      # Transformation xq = x mod q
+    dp = d % (p - 1)                                                # Exponentiation dp = d mod (p - 1)
+    dq = d % (q - 1)                                                # Exponentiation dq = d mod (q - 1)
+    yp = pow(xp, dp, p)                                             # Exponentiation yp = xp ^ dp mod p
+    yq = pow(xq, dq, q)                                             # Exponentiation yq = xq ^ dq mod q
+    cp = getInverse(p, q)                                           # Inverse Transformation cp = q ^ -1 mod p
+    cq = getInverse(q, p)                                           # Inverse Transformation cq = p ^ -1 mod q
+    y = ((q * cp) * yp + (p * cq) * yq) % n                         # Inverse Transformation y = ([q * cp] * yp + [p * cq] * yq) mod n
     plaintext = ''
     while y > 0:
         plaintext = chr(y % 256) + plaintext
