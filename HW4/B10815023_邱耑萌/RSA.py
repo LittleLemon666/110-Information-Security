@@ -2,7 +2,6 @@ import argparse
 import random
 import math
 import base64
-from tkinter import Y
 
 key_length = 1024
 
