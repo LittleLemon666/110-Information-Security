@@ -2,6 +2,7 @@ import argparse
 import random
 import math
 import base64
+from tkinter import Y
 
 key_length = 1024
 
@@ -74,20 +75,38 @@ def getInverse(a, b):
 # print(getInverse(17057154292874573786416137216370832878255923331568688491968777491964174606144103915357047679458790950210238970919614329338702894997332516909423004970859590851807240862604269103374016916775030818039376594405393903092084221847261549853314220796140906305077747193835363974919399761405150548055795563975638189989170509882217169787924122040213011891895521152807434869658377907113668480338312088668730021775934919592754607923764284550309240321983068475422898152688355200227878273107651514618060225413717755104819123214474289780059566912891719649461957101446015460430391312502275593040230514370293398973198471214386302067776, 13917528990396924339275411885516221120850589095229318826874277468572841645135564323661648087728970528068726771274235795173298951259615001670042166851201216988968950475364457462852066951106538142652316972641859606029653598945163239453425335313742499123321547507747806575159423391695830895204292478459766829776605923983481674155054087442337307064504519060711013877412443486192854023107508922939681888911815153122956369569077332552223316436130264991608648601387435026862852798266695189075567623374896188061162569639782345555161913659286113538291477517167337581940625366752433791414045177195358639470751840986340821954703))
 
 def encrypt(msg, n, e):
-    bignumber = 0
+    x = 0
     for c in msg:
-        bignumber = bignumber * 256 + ord(c)                        # base 256
-    x = doSquareAndMultiply(bignumber, e, n)                        # x ^ e mod n = y
-    ciphertext = base64.b64encode(str(x).encode('ASCII')).decode()  # convert a bignumber to base 64
+        x = x * 256 + ord(c)                                        # base 256
+    y = doSquareAndMultiply(x, e, n)                                # x ^ e mod n = y
+    ciphertext = base64.b64encode(str(y).encode('ASCII')).decode()  # convert a bignumber to base 64
     return ciphertext
 
 def decrypt(ciphertext, n, d):                  
-    ciphertext = int(base64.b64decode(ciphertext))                  # convert base 64 back to a bignumber
-    bignumber = doSquareAndMultiply(ciphertext, d, n)               # y ^ d mod n = x
+    y = int(base64.b64decode(ciphertext))                           # convert base 64 back to a bignumber
+    x = doSquareAndMultiply(y, d, n)                                # y ^ d mod n = x
     plaintext = ''
-    while bignumber > 0:
-        plaintext = chr(bignumber % 256) + plaintext
-        bignumber //= 256                                           # base 256 to ASCII
+    while x > 0:
+        plaintext = chr(x % 256) + plaintext
+        x //= 256                                                   # base 256 to ASCII
+    return plaintext
+
+def CRT(ciphertext, p, q, d):
+    n = p * q                  
+    x = int(base64.b64decode(ciphertext))                           # convert base 64 back to a bignumber
+    xp = x % p                                                      # Transformation y mod p = yp
+    xq = x % q                                                      # Transformation y mod q = yq
+    dp = d % (p - 1)
+    dq = d % (q - 1)
+    yp = pow(xp, dp, p)
+    yq = pow(xq, dq, q)
+    cp = getInverse(p, q)
+    cq = getInverse(q, p)
+    y = ((q * cp) * yp + (p * cq) * yq) % n
+    plaintext = ''
+    while y > 0:
+        plaintext = chr(y % 256) + plaintext
+        y //= 256                                                   # base 256 to ASCII
     return plaintext
 
 if __name__ == "__main__":
@@ -98,6 +117,8 @@ if __name__ == "__main__":
 						help="encrypt -e [msg] [N] [e]")
     parser.add_argument("-d", "--decrypt", type=str, nargs='+',
 						help="decrypt -d [ciphertext] [N] [d]")
+    parser.add_argument("-CRT", "--crt", type=str, nargs='+',
+						help="CRT -CRT [ciphertext] [p] [q] [d]")
 
     args = parser.parse_args()
 
@@ -148,4 +169,12 @@ if __name__ == "__main__":
         n = int(args.decrypt[1])
         d = int(args.decrypt[2])
         plaintext = decrypt(msg, n, d)
+        print(plaintext)
+    
+    if args.crt:
+        msg = args.crt[0]
+        p = int(args.crt[1])
+        q = int(args.crt[2])
+        d = int(args.crt[3])
+        plaintext = CRT(msg, p, q, d)
         print(plaintext)
